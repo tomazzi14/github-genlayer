@@ -115,6 +115,12 @@ async function handlePRSubmission(bountyId, prURL, solverAddress) {
   });
   const issueURL = bounty[2]; // issueURL is 3rd field
 
+  // Validate the GitHub issue is accessible
+  const validation = await validateGitHubIssueURL(issueURL);
+  if (!validation.valid) {
+    return res.status(400).json({ error: `Issue URL validation failed: ${validation.error}` });
+  }
+
   console.log(`\n${"=".repeat(50)}`);
   console.log(`NEW PR SUBMISSION`);
   console.log(`${"=".repeat(50)}`);
@@ -222,6 +228,29 @@ app.use("/submit", (req, res, next) => {
 });
 
 // POST /submit — frontend calls this with bountyId, prURL, solverAddress
+
+// --- Input validation ---
+
+async function validateGitHubIssueURL(issueURL) {
+  // Convert GitHub issue URL to API URL
+  // e.g. https://github.com/owner/repo/issues/123 -> https://api.github.com/repos/owner/repo/issues/123
+  try {
+    const match = issueURL.match(/github\.com\/([^\/]+)\/([^\/]+)\/issues\/(\d+)/);
+    if (!match) return { valid: false, error: "Invalid GitHub issue URL format" };
+    const [, owner, repo, number] = match;
+    const apiURL = `https://api.github.com/repos/${owner}/${repo}/issues/${number}`;
+    const response = await fetch(apiURL, {
+      headers: { "Accept": "application/vnd.github+json" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (response.status === 404) return { valid: false, error: "GitHub issue not found" };
+    if (!response.ok) return { valid: false, error: `GitHub API returned ${response.status}` };
+    return { valid: true };
+  } catch (e) {
+    return { valid: false, error: `Could not validate issue URL: ${e.message}` };
+  }
+}
+
 app.post("/submit", async (req, res) => {
   const { bountyId, prURL, solverAddress } = req.body;
 
