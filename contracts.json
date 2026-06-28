@@ -1,17 +1,39 @@
 {
-  "avalanche_mainnet": {
-    "chainId": 43114,
-    "BountyEscrow": "0xB61Dc153eB4B149C5cb6Ed46FD67c62063311932",
-    "USDC": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-    "relayer": "0x235713C4CA6A8cd2adc0333F64d1b453BfCdBbfd"
+  "$schema": "https://json.schemastore.org/package.json",
+  "description": "AutoBounty deployed contract addresses",
+  "testnet": {
+    "avalanche_fuji": {
+      "BountyEscrow": "0x0000000000000000000000000000000000000000",
+      "BountyEscrowOApp": "0x0000000000000000000000000000000000000000",
+      "MockUSDC": "0x0000000000000000000000000000000000000000",
+      "chainId": 43113,
+      "rpc": "https://api.avax-test.network/ext/bc/C/rpc"
+    },
+    "genlayer_bradbury": {
+      "BountyJudge": "0x0000000000000000000000000000000000000000",
+      "chainId": null,
+      "rpc": "https://studio.genlayer.com"
+    }
   },
-  "avalanche_fuji": {
-    "chainId": 43113,
-    "BountyEscrow": "0xB61Dc153eB4B149C5cb6Ed46FD67c62063311932",
-    "MockUSDC": "0x4a7B3cD32D8f43FaDb08Cb2d0752BB87328b574d",
-    "relayer": "0x235713C4CA6A8cd2adc0333F64d1b453BfCdBbfd"
+  "mainnet": {
+    "avalanche": {
+      "BountyEscrow": null,
+      "BountyEscrowOApp": null,
+      "MockUSDC": null,
+      "chainId": 43114,
+      "rpc": "https://api.avax.network/ext/bc/C/rpc"
+    }
   },
-  "genlayer_bradbury": {
-    "BountyJudge": "0x0dD12a8cC5441B26ED4a798AE0D1Dc6369fC2516"
+  "local": {
+    "foundry": {
+      "BountyEscrow": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "MockUSDC": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "chainId": 31337,
+      "rpc": "http://127.0.0.1:8545"
+    },
+    "genlayer_localnet": {
+      "BountyJudge": "0x0000000000000000000000000000000000000000",
+      "rpc": "http://127.0.0.1:4000"
+    }
   }
 }
